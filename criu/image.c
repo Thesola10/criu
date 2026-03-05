@@ -19,6 +19,7 @@
 #include "proc_parse.h"
 #include "img-streamer.h"
 #include "namespaces.h"
+#include "luo.h"
 
 bool ns_per_id = false;
 bool img_common_magic = true;
@@ -607,6 +608,9 @@ static int do_open_image(struct cr_img *img, int dfd, int type, unsigned long of
 
 	if (opts.stream && !(oflags & O_FORCE_LOCAL)) {
 		ret = img_streamer_open(path, flags);
+		errno = EIO; /* errno value is meaningless, only the ret value is meaningful */
+	} else if (opts.use_luo) {
+		ret = luo_session_open(path, flags);
 		errno = EIO; /* errno value is meaningless, only the ret value is meaningful */
 	} else if (root_ns_mask & CLONE_NEWUSER && type == CR_FD_PAGES && oflags & O_RDWR) {
 		/*
