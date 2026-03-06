@@ -408,6 +408,8 @@ usage:
 	       "     --pidfile FILE     write root task, service or page-server pid to FILE\n"
 	       "  -W|--work-dir DIR     directory to cd and write logs/pidfiles/stats to\n"
 	       "                        (if not specified, value of --images-dir is used)\n"
+	       "     --luo-session ID   liveupdate session ID to write images to\n"
+	       "                        if specified, image files will not be written\n"
 	       "     --cpu-cap [CAP]    CPU capabilities to write/check. CAP is comma-separated\n"
 	       "                        list of: cpu, fpu, all, ins, none. To disable\n"
 	       "                        a capability, use ^CAP. Empty argument implies all\n"
