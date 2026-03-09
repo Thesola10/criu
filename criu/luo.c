@@ -17,6 +17,8 @@ static int luo_create_session(int luo_fd, const char *name)
 {
 	struct liveupdate_ioctl_create_session arg = { .size = sizeof(arg) };
 
+	pr_debug("Creating LUO session '%s'\n", name);
+
 	snprintf((char *)arg.name, LIVEUPDATE_SESSION_NAME_LENGTH, "%.*s", LIVEUPDATE_SESSION_NAME_LENGTH - 1, name);
 
 	if (ioctl(luo_fd, LIVEUPDATE_IOCTL_CREATE_SESSION, &arg) < 0)
@@ -28,6 +30,8 @@ static int luo_create_session(int luo_fd, const char *name)
 static int luo_retrieve_session(int luo_fd, const char *name)
 {
 	struct liveupdate_ioctl_retrieve_session arg = { .size = sizeof(arg) };
+
+	pr_debug("Restoring LUO session '%s'\n", name);
 
 	snprintf((char *)arg.name, LIVEUPDATE_SESSION_NAME_LENGTH, "%.*s", LIVEUPDATE_SESSION_NAME_LENGTH - 1, name);
 
@@ -89,7 +93,10 @@ int luo_image_open(const struct cr_img *image, int flags)
 		return -ENOENT;
 
 	if (flags & O_WRONLY) {
-		int mfd = memfd_create(image->path, 0);
+		int mfd;
+
+		pr_debug("Creating in-memory image '%s'\n", image->path);
+		mfd = memfd_create(image->path, 0);
 		if (mfd < 0)
 			return -errno;
 		return mfd;
@@ -98,6 +105,8 @@ int luo_image_open(const struct cr_img *image, int flags)
 			.size = sizeof(arg),
 			.token = luo_get_token(image)
 		};
+
+		pr_debug("Retireving image '%s' from token '%0llx'\n", image->path, arg.token);
 
 		if (ioctl(opts.luo_session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
 			return -errno;
