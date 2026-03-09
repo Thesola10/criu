@@ -610,6 +610,7 @@ static int do_open_image(struct cr_img *img, int dfd, int type, unsigned long of
 		ret = img_streamer_open(path, flags);
 		errno = EIO; /* errno value is meaningless, only the ret value is meaningful */
 	} else if (opts.use_luo && !(oflags & O_FORCE_LOCAL)) {
+		img->path = path;
 		ret = luo_image_open(img, flags);
 	} else if (root_ns_mask & CLONE_NEWUSER && type == CR_FD_PAGES && oflags & O_RDWR) {
 		/*
