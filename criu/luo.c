@@ -138,9 +138,9 @@ int luo_image_close(const struct cr_img *image)
 
 void luo_session_hang(void)
 {
-	pr_warn("Standing by for kexec...");
+	pr_warn("Standing by for kexec...\n");
 	for (;;)
-		;
+		pause();
 }
 
 int luo_session_finish(void)

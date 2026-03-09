@@ -86,7 +86,12 @@ The following levels are available:
     This option makes sense in case of incremental dumps.
 
 *--luo-session* 'id'::
-    Use 'id' as the Live Update Orchestrator session to store images into.
+    Create a Live Update Orchestrator session named 'id', and use it to store
+    images.
+    This will disable writing images to files.
+
+*--luo-session-fd* 'fd'::
+    Use 'fd' as the Live Update Orchestrator session to store images into.
     This will disable writing images to files.
 
 *-W*, *--work-dir* 'dir'::
