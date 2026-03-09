@@ -136,6 +136,13 @@ int luo_image_close(const struct cr_img *image)
 	return 0;
 }
 
+void luo_session_hang(void)
+{
+	pr_warn("Standing by for kexec...");
+	for (;;)
+		;
+}
+
 int luo_session_finish(void)
 {
 	struct liveupdate_session_finish arg = { .size = sizeof(arg) };

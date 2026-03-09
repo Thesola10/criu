@@ -2126,11 +2126,21 @@ static int cr_dump_finish(int ret)
 			pr_info("fault: CRIU dump crashed!\n");
 			abort();
 		}
+		if (opts.use_luo && opts.luo_session)
+			luo_session_finish();
 		pr_err("Dumping FAILED.\n");
 	} else {
 		write_stats(DUMP_STATS);
 		pr_info("Dumping finished successfully\n");
+		/*
+		 * LUO will only preserve session file descriptors that were open
+		 * when kexec occurs, so we literally freeze in place.
+		 */
+		if (opts.use_luo && opts.luo_session)
+			luo_session_hang();
 	}
+
+
 	return post_dump_ret ?: (ret != 0);
 }
 
