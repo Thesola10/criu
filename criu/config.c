@@ -1049,11 +1049,21 @@ int parse_options(int argc, char **argv, bool *usage_error, bool *has_exec_cmd, 
 			}
 			break;
 		case 1101:
+			if (opts.use_luo) {
+				pr_err("--luo-session or --luo-session-id was supplied multiple times.\n");
+				return 1;
+			}
 			SET_CHAR_OPTS(luo_session, optarg);
 			opts.use_luo = true;
 			break;
 		case 1102:
-			opts.luo_session_fd = atoi(optarg);
+			if (sscanf(optarg, "%d", &opts.luo_session_fd) != 1) {
+				pr_err("Unable to parse a value of --luo-session-fd\n");
+				return 1;
+			} else if (opts.use_luo) {
+				pr_err("--luo-session or --luo-session-id was supplied multiple times.\n");
+				return 1;
+			}
 			opts.use_luo = true;
 			break;
 		case 'V':
