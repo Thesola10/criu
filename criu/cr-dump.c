@@ -88,6 +88,7 @@
 #include "asm/dump.h"
 #include "timer.h"
 #include "sigact.h"
+#include "luo.h"
 
 /*
  * Architectures can overwrite this function to restore register sets that
@@ -2193,6 +2194,11 @@ int cr_dump_tasks(pid_t pid)
 
 	if (opts.cpu_cap & CPU_CAP_IMAGE) {
 		if (cpu_dump_cpuinfo())
+			goto err;
+	}
+
+	if (opts.use_luo && opts.luo_session) {
+		if (luo_session_init(opts.luo_session))
 			goto err;
 	}
 

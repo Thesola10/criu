@@ -1,8 +1,14 @@
 #ifndef LUO_H
 #define LUO_H
 
-extern int luo_session_init(char *session);
-extern int luo_session_open(char *image, int flags);
-extern int luo_session_fini(void);
+#include "image.h"
+
+#define LUO_DEVICE "/dev/liveupdate"
+
+extern int luo_session_init(const char *session);
+extern int luo_session_open(const char *session);
+extern int luo_image_open(const struct cr_img *image, int flags);
+extern int luo_image_close(const struct cr_img *image);
+extern int luo_session_finish(void);
 
 #endif /* LUO_H */

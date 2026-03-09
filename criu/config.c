@@ -432,6 +432,7 @@ void init_opts(void)
 	opts.file_validation_method = FILE_VALIDATION_DEFAULT;
 	opts.network_lock_method = NETWORK_LOCK_DEFAULT;
 	opts.ghost_fiemap = FIEMAP_DEFAULT;
+	opts.luo_session_fd = -1;
 }
 
 bool deprecated_ok(char *what)
@@ -702,6 +703,7 @@ int parse_options(int argc, char **argv, bool *usage_error, bool *has_exec_cmd, 
 		{ "lsm-mount-context", required_argument, 0, 1099 },
 		{ "network-lock", required_argument, 0, 1100 },
 		{ "luo-session", required_argument, 0, 1101 },
+		{ "luo-session-fd", required_argument, 0, 1102 },
 		BOOL_OPT("mntns-compat-mode", &opts.mntns_compat_mode),
 		BOOL_OPT("unprivileged", &opts.unprivileged),
 		BOOL_OPT("ghost-fiemap", &opts.ghost_fiemap),
@@ -1048,6 +1050,10 @@ int parse_options(int argc, char **argv, bool *usage_error, bool *has_exec_cmd, 
 			break;
 		case 1101:
 			SET_CHAR_OPTS(luo_session, optarg);
+			opts.use_luo = true;
+			break;
+		case 1102:
+			opts.luo_session_fd = atoi(optarg);
 			opts.use_luo = true;
 			break;
 		case 'V':

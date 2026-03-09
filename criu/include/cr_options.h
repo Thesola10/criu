@@ -197,6 +197,7 @@ struct cr_options {
 
 	bool use_luo;
 	char *luo_session;
+	int luo_session_fd;
 
 	/*
 	 * When we scheduler for removal some functionality we first
