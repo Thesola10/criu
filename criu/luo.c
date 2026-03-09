@@ -106,7 +106,7 @@ int luo_image_open(const struct cr_img *image, int flags)
 			.token = luo_get_token(image)
 		};
 
-		pr_debug("Retireving image '%s' from token '%0llx'\n", image->path, arg.token);
+		pr_debug("Retrieving image '%s' from token '%0llx'\n", image->path, arg.token);
 
 		if (ioctl(opts.luo_session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
 			return -errno;

@@ -610,7 +610,7 @@ static int do_open_image(struct cr_img *img, int dfd, int type, unsigned long of
 		ret = img_streamer_open(path, flags);
 		errno = EIO; /* errno value is meaningless, only the ret value is meaningful */
 	} else if (opts.use_luo && !(oflags & O_FORCE_LOCAL)) {
-		img->path = path;
+		img->path = xstrdup(path);
 		ret = luo_image_open(img, flags);
 	} else if (root_ns_mask & CLONE_NEWUSER && type == CR_FD_PAGES && oflags & O_RDWR) {
 		/*
@@ -699,6 +699,7 @@ void close_image(struct cr_img *img)
 		xfree(img->path);
 	} else if (opts.use_luo && (img->oflags & O_WRONLY) && !(img->oflags & O_FORCE_LOCAL)) {
 		luo_image_close(img);
+		xfree(img->path);
 	} else if (!empty_image(img))
 		bclose(&img->_x);
 
